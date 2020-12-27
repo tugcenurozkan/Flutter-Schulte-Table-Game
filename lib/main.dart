@@ -30,9 +30,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<int> randomList = List.generate(25, (index) => index)..shuffle();
+  List<int> randomList = List.generate(25, (index) => index + 1)..shuffle();
   Map<int, bool> pressedValues = Map.fromIterable(
-    List.generate(25, (int idx) => idx),
+    List.generate(26, (int idx) => idx),
     key: (item) => item,
     value: (item) => true,
   );
@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  int i = 0;
+  int i = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     pressedValues[val] = !pressedValues[val];
                                   i++;
                                 }
-                                if (val == 24) {
+                                if (val == 25) {
                                   print("Won");
                                   showResult();
                                 }
