@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 void main() => runApp(MyApp());
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -52,11 +51,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return timer.cancel();
   }
 
-  @override
-  void initState() {
-    super.initState();
-    startTimer();
-  }
+  // @override        //program çalıştırılır çalıştırılmaz zaman başlasın istenirse bu şekilde yazılır(constructor)
+  // void initState() {
+  //   super.initState();
+  //   startTimer();
+  // }
 
   showResult() {
     showDialog(
@@ -120,11 +119,15 @@ class _MyHomePageState extends State<MyHomePage> {
                               (int val) => Container(
                                 child: GestureDetector(
                                   onTap: () {
+                                    if (pressedValues[1]) {
+                                      startTimer();
+                                    }
                                     setState(() {
                                       if (val == i) {
                                         if (pressedValues[val])
                                           pressedValues[val] =
                                               !pressedValues[val];
+
                                         i++;
 
                                         if (val == 25) {
