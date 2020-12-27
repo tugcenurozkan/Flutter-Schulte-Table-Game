@@ -31,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<int> randomList = List.generate(25, (index) => index + 1)..shuffle();
+
   Map<int, bool> pressedValues = Map.fromIterable(
     List.generate(26, (int idx) => idx),
     key: (item) => item,
@@ -47,6 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  cancelTimer() {
+    return timer.cancel();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -58,15 +63,16 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: Text("Best Time!!!"),
+        title: Text("!!!YOU DID IT!!!"),
         content: Text(
-          "Time $time",
+          "Your Score : $time",
           style: Theme.of(context).textTheme.display2,
         ),
         actions: <Widget>[
           FlatButton(
             onPressed: () {
               Navigator.of(context).pushReplacement(
+                //burda yapılan işlem bize oyundaki önceki skorlara geri giderek görmeyi sağlar.
                 MaterialPageRoute(
                   builder: (context) => MyHomePage(
                     size: level,
@@ -75,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
               );
               level *= 2;
             },
-            child: Text("NEXT"),
+            child: Text("RESTART"),
           ),
         ],
       ),
@@ -89,59 +95,67 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(""),
       ),
-      body: Column(
-        children: [
-          Container(
-            child: Text("Time: $time"),
-          ),
-          Center(
-            child: Container(
-              width: 200,
-              height: 200,
-              child: GridView.count(
-                  crossAxisCount: 5,
-                  // crossAxisSpacing: 1,
-                  // mainAxisSpacing: 1,
-                  children: randomList
-                      .map(
-                        (int val) => Container(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                // List<int> value =
-                                //     List.generate(25, (index) => index)
-                                //       ..shuffle();
-                                // value.sort();
+      body: Container(
+        padding: const EdgeInsets.all(50.0),
+        child: Row(
+          children: [
+            Column(children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(1, 90, 50, 50),
+                child: Text("Time: $time"),
+              )
+            ]),
+            Column(
+              children: [
+                Center(
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    child: GridView.count(
+                        crossAxisCount: 5,
+                        // crossAxisSpacing: 1,
+                        // mainAxisSpacing: 1,
+                        children: randomList
+                            .map(
+                              (int val) => Container(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      if (val == i) {
+                                        if (pressedValues[val])
+                                          pressedValues[val] =
+                                              !pressedValues[val];
+                                        i++;
 
-                                if (val == i) {
-                                  if (pressedValues[val])
-                                    pressedValues[val] = !pressedValues[val];
-                                  i++;
-                                }
-                                if (val == 25) {
-                                  print("Won");
-                                  showResult();
-                                }
-                              });
-                            },
-                            child: Container(
-                              height: 56.0,
-                              color: pressedValues[val]
-                                  ? Colors.red
-                                  : Colors.green,
-                              child: Center(
-                                child: pressedValues[val]
-                                    ? Text(val.toString())
-                                    : Text(val.toString()),
+                                        if (val == 25) {
+                                          print("Won");
+                                          showResult();
+                                          cancelTimer();
+                                        }
+                                      }
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 56.0,
+                                    color: pressedValues[val]
+                                        ? Colors.grey[400]
+                                        : Colors.grey[700],
+                                    child: Center(
+                                      child: pressedValues[val]
+                                          ? Text(val.toString())
+                                          : Text(val.toString()),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList()),
+                            )
+                            .toList()),
+                  ),
+                ),
+              ],
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
