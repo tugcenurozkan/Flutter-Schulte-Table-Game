@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 void main() => runApp(MyApp());
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -92,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(""),
+        title: Text("Schulte Table Game"),
       ),
       body: Container(
         padding: const EdgeInsets.all(50.0),
@@ -131,7 +132,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                         i++;
 
                                         if (val == 25) {
-                                          print("Won");
                                           showResult();
                                           cancelTimer();
                                         }
